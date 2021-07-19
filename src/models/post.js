@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const { Schema, model } = mongoose
+const { Schema, model, ObjectId } = mongoose
 
 
 const PostSchema = new Schema (
@@ -17,7 +17,7 @@ const PostSchema = new Schema (
             type: String,
             required: true,
         },
-        user: [{ type: Object, ref: "Profile" }],
+        user: [{ type: ObjectId, ref: "Profile" }],
     },
     {
       timestamps: true,
