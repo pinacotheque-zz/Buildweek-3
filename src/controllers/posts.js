@@ -69,7 +69,7 @@ const deletePost = async (req, res, next) => {
 const Controllers = {
     getAll: getAllPosts,
     getSingle: getSinglePost,
-    newPost,
+    createPost,
     updatePost,
     deletePost
   }
