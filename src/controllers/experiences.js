@@ -104,13 +104,27 @@ const eraseOneExp = async (req, res, next) =>{
     
 }
 
+const addExPic = async (req, res, next) => {
+    try {
+      let url
+      if (req.file) {
+        url = req.file.path
+      }
+      res.send(url)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+
 const Controllers = {
 
     newExp: postExperience,
     getAllExp,
     getOneExp,
     changeOneExp,
-    eraseOneExp
+    eraseOneExp,
+    addExPic
 
 }
 
