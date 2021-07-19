@@ -5,11 +5,10 @@ const router = express.Router()
 
 
 
-router.route("/").get(Controllers.getAll)
-router.route("/:userId").post(Controllers)
+router.route("/").get(Controllers.getAll).post(Controllers.newPost)
 router.route("/:postId").get(Controllers.getSingle)
                         .put(Controllers.updatePost)
                         .delete(Controllers.deletePost)
-                        .post(Controllers.newPost)
+                        
 
 export default router
