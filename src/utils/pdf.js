@@ -32,7 +32,7 @@ const cvDoc = async (profile) => {
             },
             {
               text: "Area: " + profile.area,
-              margin: [20, 50, 0, 0],
+              margin: [20, 60, 0, 0],
             },
             {
               text: "Email: " + profile.email,
@@ -55,7 +55,7 @@ const cvDoc = async (profile) => {
       },
       {
         text: "ABOUT",
-        margin: [0, 50, 0, 0],
+        margin: [0, 35, 0, 0],
         fontSize: 18,
         bold: true,
       },
