@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const { Schema, model } = mongoose
+const { Schema, model, ObjectId } = mongoose
 
 const ProfileSchema = new Schema(
   {
@@ -30,7 +30,7 @@ const ProfileSchema = new Schema(
     },
     image: {
       type: String,
-      required: true,
+      required: false,
     },
     posts: [{ type: ObjectId, ref: "Post" }],
   },

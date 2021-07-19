@@ -1,5 +1,7 @@
 import Profile from "../models/profile.js"
 import createError from "http-errors"
+import { getPdfCV } from "../utils/pdf.js"
+import { pipeline } from "stream"
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -47,11 +49,33 @@ const updateUser = async (req, res, next) => {
 
 const uploadProfilePicture = async (req, res, next) => {
   try {
-    let url
     if (req.file) {
-      url = req.file.path
+      const updatedUser = await Profile.findByIdAndUpdate(
+        req.params.userId,
+        { image: req.file.path },
+        {
+          new: true,
+          runValidators: true,
+        }
+      )
+      res.send(updatedUser)
     }
-    res.send(url)
+  } catch (error) {
+    next(error)
+  }
+}
+
+const getCvPdf = async (req, res, next) => {
+  try {
+    const profile = await Profile.findById(req.params.userId)
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=${profile.name}-${profile.surname}.pdf`
+    )
+    const pdfStream = await getPdfCV(profile)
+    pipeline(pdfStream, res, (err) => {
+      if (err) next(err)
+    })
   } catch (error) {
     next(error)
   }
@@ -63,6 +87,7 @@ const Controllers = {
   newUser: createUser,
   updateUser: updateUser,
   uploadPicture: uploadProfilePicture,
+  getCv: getCvPdf,
 }
 
 export default Controllers

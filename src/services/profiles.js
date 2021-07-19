@@ -9,6 +9,6 @@ router.route("/:userId").get(Controllers.getSingle).put(Controllers.updateUser)
 router
   .route("/:userId/picture")
   .post(profileImgParser.single("picture"), Controllers.uploadPicture)
-router.route("/:userId/cv").get()
+router.route("/:userId/cv").get(Controllers.getCv)
 
 export default router
