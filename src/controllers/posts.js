@@ -52,7 +52,7 @@ const updatePost = async (req, res, next) => {
   }
 
 // DELETE POST
-const deletedPost = async (req, res, next) => {
+const deletePost = async (req, res, next) => {
     try {
       const deletedPost = await Post.findByIdAndDelete(req.params.postId)
       if (deletedPost) {
@@ -69,8 +69,9 @@ const deletedPost = async (req, res, next) => {
 const Controllers = {
     getAll: getAllPosts,
     getSingle: getSinglePost,
-    newUser: createPost,
-    updateUser: updatePost
+    newPost,
+    updatePost,
+    deletePost
   }
   
   export default Controllers
