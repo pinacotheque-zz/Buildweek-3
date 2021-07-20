@@ -10,5 +10,6 @@ router
   .get(Controllers.getSingle)
   .put(Controllers.updatePost)
   .delete(Controllers.deletePost)
+router.route("/:postId/:userId").post(Controllers.like).delete(Controllers.unlike)
 
 export default router

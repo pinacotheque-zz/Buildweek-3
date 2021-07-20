@@ -11,6 +11,7 @@ const PostSchema = new Schema(
       type: String,
       required: true,
     },
+    likes: [ObjectId],
     user: { type: ObjectId, ref: "Profile" },
   },
   {

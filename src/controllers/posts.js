@@ -59,7 +59,6 @@ const updatePost = async (req, res, next) => {
 const deletePost = async (req, res, next) => {
   try {
     const deletedPost = await Post.findByIdAndDelete(req.params.postId)
-    console.log(deletedPost)
     await Profile.findByIdAndUpdate(
       deletedPost.user,
       {
@@ -77,12 +76,36 @@ const deletePost = async (req, res, next) => {
   }
 }
 
+const likePost = async (req, res, next) => {
+  try {
+    await Post.findByIdAndUpdate(req.params.postId, {
+      $push: { likes: req.params.userId },
+    })
+    res.send(200)
+  } catch (error) {
+    next(error)
+  }
+}
+
+const unlikePost = async (req, res, next) => {
+  try {
+    await Post.findByIdAndUpdate(req.params.postId, {
+      $pull: { likes: req.params.userId },
+    })
+    res.send(200)
+  } catch (error) {
+    next(error)
+  }
+}
+
 const Controllers = {
   getAll: getAllPosts,
   getSingle: getSinglePost,
   createPost,
   updatePost,
   deletePost,
+  like: likePost,
+  unlike: unlikePost,
 }
 
 export default Controllers
