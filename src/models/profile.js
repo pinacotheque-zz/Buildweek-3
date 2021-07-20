@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 
 const { Schema, model } = mongoose
+const { Schema, model, ObjectId } = mongoose
 
 const ProfileSchema = new Schema(
   {
@@ -42,6 +43,9 @@ const ProfileSchema = new Schema(
       area: String,
       username: String,
       image: String, }]
+      required: false,
+    },
+    posts: [{ type: ObjectId, ref: "Post" }],
   },
   {
     timestamps: true,
@@ -49,3 +53,4 @@ const ProfileSchema = new Schema(
 )
 
 export default model("Profile", ProfileSchema)
+
