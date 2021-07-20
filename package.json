@@ -1,5 +1,5 @@
 {
-  "name": "Buildweek-3",
+  "name": "buildweek-3",
   "version": "1.0.0",
   "description": "LinkedIn App Backend - Janusz Kondziarz / Gamze Guneri / Viljams Carevs",
   "main": "index.js",
@@ -24,6 +24,7 @@
     "nodemon": "^2.0.12"
   },
   "dependencies": {
+    "cloudinary": "^1.26.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-list-endpoints": "^5.0.0",
@@ -34,6 +35,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "multer-storage-cloudinary": "^4.0.0",
-    "pdfmake": "^0.2.0"
+    "pdfmake": "^0.2.0",
+    "v2": "0.0.3"
   }
 }
