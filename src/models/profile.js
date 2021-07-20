@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import ExperienceSchema from "./experiences.js"
 
 const { Schema, model } = mongoose
 const { Schema, model, ObjectId } = mongoose
@@ -34,17 +35,7 @@ const ProfileSchema = new Schema(
       required: true,
     },
     posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
-    experiences: [{
-      role: String,
-      company: String,
-      startDate: Date,
-      endDate: Date, 
-      description: String,
-      area: String,
-      username: String,
-      image: String, }]
-      required: false,
-    },
+    experiences: [ExperienceSchema],
     posts: [{ type: ObjectId, ref: "Post" }],
   },
   {
@@ -53,4 +44,3 @@ const ProfileSchema = new Schema(
 )
 
 export default model("Profile", ProfileSchema)
-
