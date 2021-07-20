@@ -14,7 +14,7 @@ const getAllUsers = async (req, res, next) => {
 
 const getSingleUser = async (req, res, next) => {
   try {
-    const user = await Profile.findById(req.params.userId)
+    const user = await Profile.findById(req.params.userId).populate("posts")
     res.send(user)
   } catch (error) {
     next(error)
