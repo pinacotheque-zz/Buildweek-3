@@ -14,7 +14,7 @@ const getAllUsers = async (req, res, next) => {
 
 const getSingleUser = async (req, res, next) => {
   try {
-    const user = await Profile.findById(req.params.userId)
+    const user = await Profile.findById(req.params.userId).populate("posts")
     res.send(user)
   } catch (error) {
     next(error)
@@ -49,7 +49,17 @@ const updateUser = async (req, res, next) => {
 
 const uploadProfilePicture = async (req, res, next) => {
   try {
-    if (req.file) {
+    if (req.body.image) {
+      const updatedUser = await Profile.findByIdAndUpdate(
+        req.params.userId,
+        { image: req.body.image },
+        {
+          new: true,
+          runValidators: true,
+        }
+      )
+      res.send(updatedUser)
+    } else {
       const updatedUser = await Profile.findByIdAndUpdate(
         req.params.userId,
         { image: req.file.path },
