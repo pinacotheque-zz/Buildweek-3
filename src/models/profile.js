@@ -31,9 +31,8 @@ const ProfileSchema = new Schema(
     },
     image: {
       type: String,
-      required: true,
+      required: false,
     },
-    posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
     experiences: [ExperienceSchema],
     posts: [{ type: ObjectId, ref: "Post" }],
   },
