@@ -9,7 +9,7 @@ const PostSchema = new Schema(
     },
     image: {
       type: String,
-      required: true,
+      required: false,
     },
     likes: [ObjectId],
     user: { type: ObjectId, ref: "Profile" },
