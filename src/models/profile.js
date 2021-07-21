@@ -1,7 +1,6 @@
 import mongoose from "mongoose"
 import ExperienceSchema from "./experiences.js"
 
-const { Schema, model } = mongoose
 const { Schema, model, ObjectId } = mongoose
 
 const ProfileSchema = new Schema(
