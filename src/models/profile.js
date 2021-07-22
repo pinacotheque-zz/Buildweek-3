@@ -19,7 +19,7 @@ const ProfileSchema = new Schema(
     },
     bio: {
       type: String,
-      required: true,
+      required: false,
     },
     title: {
       type: String,
@@ -40,5 +40,12 @@ const ProfileSchema = new Schema(
     timestamps: true,
   }
 )
+
+ProfileSchema.pre("save", function (next) {
+  if (!this.image) {
+    this.image = `https://eu.ui-avatars.com/api/?name=${this.name}+${this.surname}`
+  }
+  next()
+})
 
 export default model("Profile", ProfileSchema)
