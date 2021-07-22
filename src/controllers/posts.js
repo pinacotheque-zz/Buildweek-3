@@ -7,12 +7,8 @@ import q2m from "query-to-mongo"
 const getAllPosts = async (req, res, next) => {
   try {
     const query = q2m(req.query)
-
-    const page = req.query.page
-    const posts = await Post.find(query.criteria, query.options).populate("user")
-    // .sort({ createdAt: -1 })
-    // .skip(30 * (page - 1))
-    // .limit(30)
+    console.log(query)
+    const posts = await Post.find(query.criteria, {}, query.options).populate("user")
     res.send(posts)
   } catch (error) {
     next(createError(500, `An error occurred while getting the posts`))
@@ -101,6 +97,33 @@ const unlikePost = async (req, res, next) => {
   }
 }
 
+const updateImage = async (req, res, next) => {
+  try {
+    if (req.body.image) {
+      const updatedPost = await Post.findByIdAndUpdate(
+        req.params.postId,
+        { image: req.body.image },
+        {
+          new: true,
+          runValidators: true,
+        }
+      )
+    } else {
+      const updatedPost = await Post.findByIdAndUpdate(
+        req.params.postId,
+        { image: req.file.path },
+        {
+          new: true,
+          runValidators: true,
+        }
+      )
+    }
+    res.send(updatedPost)
+  } catch (error) {
+    next(error)
+  }
+}
+
 const Controllers = {
   getAll: getAllPosts,
   getSingle: getSinglePost,
@@ -109,6 +132,7 @@ const Controllers = {
   deletePost,
   like: likePost,
   unlike: unlikePost,
+  updateImage,
 }
 
 export default Controllers

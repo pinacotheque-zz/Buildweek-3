@@ -4,13 +4,23 @@ const postExperience = async (req, res, next) => {
   try {
     const updatedProf = await Profile.findByIdAndUpdate(
       req.params.userId,
-      { $push: { experiences: req.body } },
+      {
+        $push: {
+          experiences: {
+            ...req.body,
+            image: `https://eu.ui-avatars.com/api/?name=${req.body.company}`,
+          },
+        },
+      },
       {
         new: true,
         runValidators: true,
       }
     )
-    res.send(updatedProf)
+    const newExperience = updatedProf.experiences.sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+    )
+    res.send(newExperience[0]._id)
   } catch (error) {
     next(error)
   }
