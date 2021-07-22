@@ -1,15 +1,18 @@
 import Post from "../models/post.js"
 import Profile from "../models/profile.js"
 import createError from "http-errors"
+import q2m from "query-to-mongo"
 
 // GET ALL
 const getAllPosts = async (req, res, next) => {
   try {
+    const query = q2m(req.query)
+
     const page = req.query.page
-    const posts = await Post.find()
-      .populate("user")
-      .skip(30 * (page - 1))
-      .limit(30)
+    const posts = await Post.find(query.criteria, query.options).populate("user")
+    // .sort({ createdAt: -1 })
+    // .skip(30 * (page - 1))
+    // .limit(30)
     res.send(posts)
   } catch (error) {
     next(createError(500, `An error occurred while getting the posts`))

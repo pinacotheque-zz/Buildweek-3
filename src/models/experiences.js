@@ -18,4 +18,11 @@ const ExperienceSchema = new Schema(
   }
 )
 
+ExperienceSchema.pre("save", function (next) {
+  if (!this.image) {
+    this.image = `https://eu.ui-avatars.com/api/?name=${this.company}`
+  }
+  next()
+})
+
 export default ExperienceSchema
