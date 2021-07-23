@@ -7,7 +7,6 @@ import q2m from "query-to-mongo"
 const getAllPosts = async (req, res, next) => {
   try {
     const query = q2m(req.query)
-    console.log(query)
     const posts = await Post.find(query.criteria, {}, query.options).populate("user")
     res.send(posts)
   } catch (error) {

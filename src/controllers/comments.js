@@ -4,37 +4,29 @@ import createError from "http-errors"
 import q2m from "query-to-mongo"
 import CommentModel from "../models/comments.js"
 
-// GET ALL
-// const getComm = async (req, res, next) => {
-//   try {
-//     const query = q2m(req.query)
-//     console.log(query)
-//     const posts = await Post.find(query.criteria, {}, query.options).populate("user")
-//     res.send(posts)
-//   } catch (error) {
-//     next(createError(500, `An error occurred while getting the posts`))
-//   }
-// }
-
-// // GET SINGLE
-// const getSinglePost = async (req, res, next) => {
-//   try {
-//     const post = await Post.findById(req.params.postId)
-//     res.send(post)
-//   } catch (error) {
-//     next(createError(500, `An error occurred while getting the post`))
-//   }
-// }
+// GET SINGLE
+const getSinglePostWithComments = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.postId).populate({
+      path: "comments",
+      populate: {
+        path: "user",
+      },
+    })
+    res.send(post.comments)
+  } catch (error) {
+    next(createError(500, `An error occurred while getting the post`))
+  }
+}
 
 // POST POST
 const newComm = async (req, res, next) => {
   try {
-    const newComm = new CommentModel({ ...req.body, postId: req.params.postId  })
+    const newComm = new CommentModel({ ...req.body, postId: req.params.postId })
     const { _id } = await newComm.save(newComm)
     await Post.findByIdAndUpdate(req.params.postId, { $push: { comments: _id } })
     res.send(_id)
   } catch (error) {
-      console.log(error);
     next(createError(500, `An error occurred while creating a post`))
   }
 }
@@ -42,22 +34,28 @@ const newComm = async (req, res, next) => {
 // // UPDATE POST
 const updateComm = async (req, res, next) => {
   try {
-// const post = await Post.findOneAndUpdate({
-//     _id: req.params.postId,
-//     'comments._id' : req.params.commentId,
-// },{})
+    // const post = await Post.findOneAndUpdate({
+    //     _id: req.params.postId,
+    //     'comments._id' : req.params.commentId,
+    // },{})
 
-    const updatedComm = await CommentModel.findByIdAndUpdate(req.params.commentId, req.body, {
-      new: true,
-      runValidators: true,
-    })
+    const updatedComm = await CommentModel.findByIdAndUpdate(
+      req.params.commentId,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
     if (updatedComm) {
       res.send(updatedComm)
     } else {
       next(createError(404, `Comment id: ${req.params.commentId} not found!`))
     }
   } catch (error) {
-    next(createError(500, `An error occurred while updating post ${req.params.commentId}`))
+    next(
+      createError(500, `An error occurred while updating post ${req.params.commentId}`)
+    )
   }
 }
 
@@ -65,17 +63,18 @@ const updateComm = async (req, res, next) => {
 const delComm = async (req, res, next) => {
   try {
     const deletedComm = await CommentModel.findByIdAndDelete(req.params.commentId)
-    
 
     await Post.findOneAndUpdate(
-      {_id: req.params.postId},
+      { _id: req.params.postId },
       {
         $pull: { comments: req.params.commentId },
       },
       { new: true, runValidators: true }
     )
     if (deletedComm) {
-      res.status(200).send(`COmm with id: ${req.params.commentId} is deleted successfully! `)
+      res
+        .status(200)
+        .send(`COmm with id: ${req.params.commentId} is deleted successfully! `)
     } else {
       next(createError(404, `Blog id: ${req.params.commentId} not found!`))
     }
@@ -84,13 +83,11 @@ const delComm = async (req, res, next) => {
   }
 }
 
-
 const Controllers = {
- 
-    newComm,
-    updateComm,
-    delComm
- 
+  newComm,
+  updateComm,
+  delComm,
+  getOne: getSinglePostWithComments,
 }
 
 export default Controllers
