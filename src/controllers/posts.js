@@ -75,6 +75,8 @@ const deletePost = async (req, res, next) => {
   }
 }
 
+
+// LIKE POST
 const likePost = async (req, res, next) => {
   try {
     await Post.findByIdAndUpdate(req.params.postId, {
@@ -86,6 +88,7 @@ const likePost = async (req, res, next) => {
   }
 }
 
+// UNLIKE POST
 const unlikePost = async (req, res, next) => {
   try {
     await Post.findByIdAndUpdate(req.params.postId, {
