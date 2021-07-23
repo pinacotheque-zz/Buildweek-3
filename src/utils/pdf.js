@@ -12,7 +12,7 @@ const cvDoc = async (profile) => {
       const row = {
         columns: [
           {
-            image: "data:image/png;base64," + (await getImageB64FromUrl(e.image)),
+            image: "data:image/jpeg;base64," + (await getImageB64FromUrl(e.image)),
             width: 90,
             height: 90,
           },
@@ -67,7 +67,7 @@ const cvDoc = async (profile) => {
         alignment: "justify",
         columns: [
           {
-            image: "data:image/png;base64," + (await getImageB64FromUrl(profile.image)),
+            image: "data:image/jpeg;base64," + (await getImageB64FromUrl(profile.image)),
             width: 150,
             height: 150,
           },
