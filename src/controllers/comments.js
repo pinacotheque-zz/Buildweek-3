@@ -64,14 +64,16 @@ const updateComm = async (req, res, next) => {
 // DELETE POST
 const delComm = async (req, res, next) => {
   try {
-    const deletedComm = await Post.findByIdAndDelete(req.params.commentId)
-    // await Profile.findByIdAndUpdate(
-    //   deletedComm.user,
-    //   {
-    //     $pull: { posts: req.params.postId },
-    //   },
-    //   { new: true, runValidators: true }
-    // )
+    const deletedComm = await CommentModel.findByIdAndDelete(req.params.commentId)
+    
+
+    await Post.findOneAndUpdate(
+      {_id: req.params.postId},
+      {
+        $pull: { comments: req.params.commentId },
+      },
+      { new: true, runValidators: true }
+    )
     if (deletedComm) {
       res.status(200).send(`COmm with id: ${req.params.commentId} is deleted successfully! `)
     } else {
