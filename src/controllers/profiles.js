@@ -77,7 +77,7 @@ const uploadProfilePicture = async (req, res, next) => {
 
 const getCvPdf = async (req, res, next) => {
   try {
-    const profile = await Profile.findById(req.params.userId)
+    const profile = await Profile.findById(req.params.userId).populate("experiences")
     res.setHeader(
       "Content-Disposition",
       `attachment; filename=${profile.name}-${profile.surname}.pdf`
