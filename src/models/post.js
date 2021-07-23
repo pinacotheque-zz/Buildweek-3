@@ -13,6 +13,7 @@ const PostSchema = new Schema(
     },
     likes: [ObjectId],
     user: { type: ObjectId, ref: "Profile" },
+    comments: [{ type: ObjectId, ref: "Comment" }],
   },
   {
     timestamps: true,
